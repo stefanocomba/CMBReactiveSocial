@@ -1,0 +1,1 @@
+PODS_SCREACTIVESOCIAL_OTHER_LDFLAGS = -framework Accounts -framework Social
