@@ -1,0 +1,7 @@
+pod "SCReactiveSocial", :path => "../SCReactiveSocial.podspec"
+
+target "Demo" do
+end
+
+target "DemoTests" do
+end
