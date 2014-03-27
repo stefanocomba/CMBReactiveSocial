@@ -19,7 +19,7 @@
 
         [account requestAccessToAccountsWithType: accountType options:options completion:^(BOOL granted, NSError *error) {
             if  (granted) {
-                [subscriber sendNext:@(granted)];
+                [subscriber sendNext:account];
                 [subscriber sendCompleted];
             }
             else {
