@@ -1,4 +1,4 @@
-# SCReactiveSocial
+# CMBReactiveSocial
 
 [![Version](http://cocoapod-badges.herokuapp.com/v/CMBReactiveSocial/badge.png)](http://cocoadocs.org/docsets/CMBReactiveSocial)
 [![Platform](http://cocoapod-badges.herokuapp.com/p/CMBReactiveSocial/badge.png)](http://cocoadocs.org/docsets/CMBReactiveSocial)

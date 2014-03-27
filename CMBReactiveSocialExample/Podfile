@@ -1,2 +1,2 @@
-pod "SCReactiveSocial", :path => "../SCReactiveSocial.podspec"
+pod "CMBReactiveSocial", :path => "../CMBReactiveSocial.podspec"
 

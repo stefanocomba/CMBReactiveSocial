@@ -18,9 +18,32 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.requires_arc = true
 
-  s.source_files = 'Classes'
-
-  s.frameworks = 'Accounts', 'Social'
   s.dependency 'ReactiveCocoa'
-  s.dependency 'Facebook-iOS-SDK'
+  s.default_subspec = 'All'
+
+  s.subspec 'All' do |ss|
+        ss.header_dir   =  'Classes'
+        ss.dependency 'CMBReactiveSocial/System'
+        ss.dependency 'CMBReactiveSocial/Facebook'
+        ss.dependency 'CMBReactiveSocial/Twitter'
+        ss.dependency 'CMBReactiveSocial/Google'
+  end
+  s.subspec 'System' do |ss|
+        ss.source_files =  'Classes/Accounts/*.{m,h}'
+        ss.header_dir   =  'Accounts'
+        ss.frameworks = 'Accounts', 'Social'
+  end
+  s.subspec 'Facebook' do |ss|
+        ss.source_files =  'Classes/Facebook/*.{m,h}'
+        ss.header_dir   =  'Facebook'
+        ss.dependency 'Facebook-iOS-SDK'
+  end
+  s.subspec 'Twitter' do |ss|
+        ss.source_files =  'Classes/Twitter/*.{m,h}'
+        ss.header_dir   =  'Twitter'
+  end
+  s.subspec 'Google' do |ss|
+        ss.source_files =  'Classes/Google/*.{m,h}'
+        ss.header_dir   =  'Google'
+  end
 end

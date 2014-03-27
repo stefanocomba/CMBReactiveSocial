@@ -39,12 +39,14 @@
     __weak FBSession* session = self;
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
-        [self requestNewPublishPermissions:permissions defaultAudience:defaultAudience completionHandler:^(FBSession *session, NSError *error) {
+        [session requestNewPublishPermissions:permissions defaultAudience:defaultAudience completionHandler:^(FBSession *session, NSError *error) {
             if (error) {
-                return [subscriber sendError:error];
+                [subscriber sendError:error];
             }
-            [subscriber sendNext:session];
-            [subscriber sendCompleted];
+            else {
+                [subscriber sendNext:session];
+                [subscriber sendCompleted];
+            }
         }];
 
         

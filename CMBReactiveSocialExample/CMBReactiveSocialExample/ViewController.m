@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import <FacebookSDK.h>
 #import <FBSession+RACExtensions.h>
+#import <FBRequestConnection+RACExtensions.h>
+
 
 @interface ViewController ()
 
@@ -23,7 +25,11 @@
     [FBSession setActiveSession:session];
     
     [[session rac_openSessionWithBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent] subscribeNext:^(id x) {
-        
+       [[FBRequestConnection rac_startWithGraphPath:@"me" parameters:nil HTTPMethod:@"GET"] subscribeNext:^(id x) {
+          NSLog(@"%@",x) ;
+       } error:^(NSError *error) {
+           NSLog(@"%@",error);
+       }];
     }];
 
 }
