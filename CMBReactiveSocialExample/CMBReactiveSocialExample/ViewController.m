@@ -33,6 +33,7 @@
     [super viewDidLoad];
     
 //    [self facebookExample];
+//    [self twitterExample];
 	[self googleExample];
 
 }
@@ -41,7 +42,16 @@
     FBSession* session = [[FBSession alloc] initWithAppID:@"1478533272375250" permissions:@[@"user_photos", @"email", @"user_birthday", @"user_about_me", @"user_location"] urlSchemeSuffix:nil tokenCacheStrategy:[FBSessionTokenCachingStrategy nullCacheInstance]];
     [FBSession setActiveSession:session];
     
-    
+    [[session rac_openSessionWithBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent] subscribeNext:^(id x) {
+       [[FBRequestConnection rac_startWithGraphPath:@"me" parameters:nil HTTPMethod:@"GET"] subscribeNext:^(id x) {
+          NSLog(@"%@",x) ;
+       } error:^(NSError *error) {
+           NSLog(@"%@",error);
+       }];
+    }];
+}
+
+- (void) twitterExample {
     [[ACAccountStore rac_accountWithType:ACAccountTypeIdentifierTwitter options:nil] subscribeNext:^(ACAccountStore* accountStore) {
         ACAccountType *twitterAccountType =[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
         NSArray* accounts = [accountStore accountsWithAccountType:twitterAccountType] ;
@@ -53,7 +63,7 @@
                 NSString* json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 NSLog(@"%@",json) ;
             } error:^(NSError *error) {
-               NSLog(@"%@",error); 
+                NSLog(@"%@",error);
             }];
         }
     } error:^(NSError *error) {
@@ -80,6 +90,9 @@
         plusService.retryEnabled = YES;
         [plusService setAuthorizer: [GPPSignIn sharedInstance].authentication];
         
+        NSLog (@"%@", [GPPSignIn sharedInstance].authentication.userEmail);
+        
+        // get people information
         [[plusService rac_peopleListCollection: kGTLPlusCollectionVisible] subscribeNext:^(RACTuple *x) {
             GTLServiceTicket *ticket = x.first;
             GTLPlusPeopleFeed *peopleFeed = x.second;
@@ -90,6 +103,7 @@
             NSLog(@"%@", error);
         }];
         
+        // get user account information
         [[plusService rac_getUser] subscribeNext:^(RACTuple *x) {
             GTLServiceTicket *ticket = x.first;
             GTLPlusPerson *person = x.second;
