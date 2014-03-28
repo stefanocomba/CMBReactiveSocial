@@ -12,12 +12,14 @@ PODS:
     - Facebook-iOS-SDK
     - ReactiveCocoa
   - CMBReactiveSocial/Google (0.1.0):
+    - google-plus-ios-sdk
     - ReactiveCocoa
   - CMBReactiveSocial/System (0.1.0):
     - ReactiveCocoa
   - CMBReactiveSocial/Twitter (0.1.0):
     - ReactiveCocoa
   - Facebook-iOS-SDK (3.13.0)
+  - google-plus-ios-sdk (1.5.0)
   - ReactiveCocoa (2.3):
     - ReactiveCocoa/Core
     - ReactiveCocoa/no-arc
@@ -33,8 +35,9 @@ EXTERNAL SOURCES:
     :path: ../CMBReactiveSocial.podspec
 
 SPEC CHECKSUMS:
-  CMBReactiveSocial: b2cdb297dd91197a4164978e619ff2ebb31db3a9
+  CMBReactiveSocial: d3d6e81ca120c4d75e0fc9c86116c883ef3c7d24
   Facebook-iOS-SDK: 5788541337dc88265bc940cb5ffb05915f9b64e3
+  google-plus-ios-sdk: 36ba69c66a9ec3d9722094755743a6d88b82d9a2
   ReactiveCocoa: 1f6265f9d521923d3efcc37b00722cefc16df269
 
 COCOAPODS: 0.29.0

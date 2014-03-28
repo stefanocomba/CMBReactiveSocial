@@ -21,7 +21,7 @@
 		7B8BF53518E41F61001A8BA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BF51418E41F61001A8BA1 /* Foundation.framework */; };
 		7B8BF53618E41F61001A8BA1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8BF51818E41F61001A8BA1 /* UIKit.framework */; };
 		7B8BF53E18E41F61001A8BA1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B8BF53C18E41F61001A8BA1 /* InfoPlist.strings */; };
-		7B8BF54018E41F61001A8BA1 /* SCReactiveSocialExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BF53F18E41F61001A8BA1 /* SCReactiveSocialExampleTests.m */; };
+		7B8BF54018E41F61001A8BA1 /* CMBReactiveSocialExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BF53F18E41F61001A8BA1 /* CMBReactiveSocialExampleTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +55,7 @@
 		7B8BF53318E41F61001A8BA1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		7B8BF53B18E41F61001A8BA1 /* CMBReactiveSocialExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CMBReactiveSocialExampleTests-Info.plist"; sourceTree = "<group>"; };
 		7B8BF53D18E41F61001A8BA1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7B8BF53F18E41F61001A8BA1 /* SCReactiveSocialExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCReactiveSocialExampleTests.m; sourceTree = "<group>"; };
+		7B8BF53F18E41F61001A8BA1 /* CMBReactiveSocialExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMBReactiveSocialExampleTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				7B8BF51A18E41F61001A8BA1 /* CMBReactiveSocialExample */,
-				7B8BF53918E41F61001A8BA1 /* SCReactiveSocialExampleTests */,
+				7B8BF53918E41F61001A8BA1 /* CMBReactiveSocialExampleTests */,
 				7B8BF51318E41F61001A8BA1 /* Frameworks */,
 				7B8BF51218E41F61001A8BA1 /* Products */,
 				77E21D4CC61F4425AF39FE73 /* Pods.xcconfig */,
@@ -140,13 +140,12 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7B8BF53918E41F61001A8BA1 /* SCReactiveSocialExampleTests */ = {
+		7B8BF53918E41F61001A8BA1 /* CMBReactiveSocialExampleTests */ = {
 			isa = PBXGroup;
 			children = (
-				7B8BF53F18E41F61001A8BA1 /* SCReactiveSocialExampleTests.m */,
+				7B8BF53F18E41F61001A8BA1 /* CMBReactiveSocialExampleTests.m */,
 				7B8BF53A18E41F61001A8BA1 /* Supporting Files */,
 			);
-			name = SCReactiveSocialExampleTests;
 			path = CMBReactiveSocialExampleTests;
 			sourceTree = "<group>";
 		};
@@ -301,7 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B8BF54018E41F61001A8BA1 /* SCReactiveSocialExampleTests.m in Sources */,
+				7B8BF54018E41F61001A8BA1 /* CMBReactiveSocialExampleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

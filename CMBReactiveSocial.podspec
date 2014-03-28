@@ -45,5 +45,6 @@ Pod::Spec.new do |s|
   s.subspec 'Google' do |ss|
         ss.source_files =  'Classes/Google/*.{m,h}'
         ss.header_dir   =  'Google'
+        ss.dependency 'google-plus-ios-sdk'
   end
 end

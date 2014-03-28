@@ -66,3 +66,9 @@
 #define COCOAPODS_VERSION_MINOR_ReactiveCocoa_no_arc 3
 #define COCOAPODS_VERSION_PATCH_ReactiveCocoa_no_arc 0
 
+// google-plus-ios-sdk
+#define COCOAPODS_POD_AVAILABLE_google_plus_ios_sdk
+#define COCOAPODS_VERSION_MAJOR_google_plus_ios_sdk 1
+#define COCOAPODS_VERSION_MINOR_google_plus_ios_sdk 5
+#define COCOAPODS_VERSION_PATCH_google_plus_ios_sdk 0
+
