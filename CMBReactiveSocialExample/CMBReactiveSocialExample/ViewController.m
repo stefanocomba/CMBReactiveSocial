@@ -33,8 +33,9 @@
     [super viewDidLoad];
     
 //    [self facebookExample];
+    [self facebookSystemExample];
 //    [self twitterExample];
-	[self googleExample];
+//	[self googleExample];
 
 }
 
@@ -48,6 +49,26 @@
        } error:^(NSError *error) {
            NSLog(@"%@",error);
        }];
+    }];
+}
+
+- (void) facebookSystemExample {
+    [[ACAccountStore rac_accountWithType:ACAccountTypeIdentifierFacebook options:@{ACFacebookAppIdKey:@"1478533272375250", ACFacebookPermissionsKey: @[@"user_photos", @"email", @"user_birthday", @"user_about_me", @"user_location"]}] subscribeNext:^(ACAccountStore* accountStore) {
+        ACAccountType *facebookAccountType =[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+        NSArray* accounts = [accountStore accountsWithAccountType:facebookAccountType] ;
+        if (accounts.count>0){
+            ACAccount * account = [accounts lastObject];
+            
+            [[SLRequest rac_requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://graph.facebook.com/me"] parameters:nil account:account] subscribeNext:^(RACTuple* x) {
+                NSData* data = x.first;
+                NSString* json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                NSLog(@"%@",json) ;
+            } error:^(NSError *error) {
+                NSLog(@"%@",error);
+            }];
+        }
+    } error:^(NSError *error) {
+        NSLog(@"%@",error);
     }];
 }
 
@@ -67,7 +88,7 @@
             }];
         }
     } error:^(NSError *error) {
-        
+        NSLog(@"%@",error);
     }];
 }
 

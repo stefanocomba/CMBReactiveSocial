@@ -23,7 +23,9 @@
                 [subscriber sendNext: @(status)];
                 [subscriber sendCompleted];
             }
-            
+            else {
+                [subscriber sendError:error];
+            }
             
         }];
         return [RACDisposable disposableWithBlock:^{
