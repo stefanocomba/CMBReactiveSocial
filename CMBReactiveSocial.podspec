@@ -21,13 +21,6 @@ Pod::Spec.new do |s|
   s.dependency 'ReactiveCocoa'
   s.default_subspec = 'All'
 
-  s.subspec 'All' do |ss|
-        ss.header_dir   =  'Classes'
-        ss.dependency 'CMBReactiveSocial/System'
-        ss.dependency 'CMBReactiveSocial/Facebook'
-        ss.dependency 'CMBReactiveSocial/Twitter'
-        ss.dependency 'CMBReactiveSocial/Google'
-  end
   s.subspec 'System' do |ss|
         ss.source_files =  'Classes/Accounts/*.{m,h}'
         ss.header_dir   =  'Accounts'
@@ -42,5 +35,12 @@ Pod::Spec.new do |s|
         ss.source_files =  'Classes/Google/*.{m,h}'
         ss.header_dir   =  'Google'
         ss.dependency 'google-plus-ios-sdk'
+  end
+
+  s.subspec 'All' do |ss|
+        ss.header_dir   =  'Classes'
+        ss.dependency 'CMBReactiveSocial/System'
+        ss.dependency 'CMBReactiveSocial/Facebook'
+        ss.dependency 'CMBReactiveSocial/Google'
   end
 end
