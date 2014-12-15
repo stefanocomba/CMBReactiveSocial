@@ -33,9 +33,9 @@
     [super viewDidLoad];
     
 //    [self facebookExample];
-    [self facebookSystemExample];
+//    [self facebookSystemExample];
 //    [self twitterExample];
-//	[self googleExample];
+	[self googleExample];
 
 }
 

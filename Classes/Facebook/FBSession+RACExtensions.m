@@ -28,6 +28,7 @@
             }
             
         }];
+
         return [RACDisposable disposableWithBlock:^{
 //            [[FBSession activeSession] closeAndClearTokenInformation];
         }];
