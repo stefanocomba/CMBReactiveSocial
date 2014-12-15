@@ -17,9 +17,9 @@
 #import "FBProfilePictureView.h"
 
 #import "FBAccessTokenData.h"
+#import "FBInternalSettings.h"
 #import "FBProfilePictureViewBlankProfilePortraitPNG.h"
 #import "FBProfilePictureViewBlankProfileSquarePNG.h"
-#import "FBSDKVersion.h"
 #import "FBSession.h"
 #import "FBURLConnection.h"
 #import "FBUtility.h"
@@ -103,7 +103,6 @@
         return @{
                  @"width": @(width),
                  @"height": @(width),
-                 @"migration_bundle": FB_IOS_SDK_MIGRATION_BUNDLE,
                  };
     }
 
@@ -161,7 +160,7 @@
 
         FBURLConnectionHandler handler =
         ^(FBURLConnection *connection, NSError *error, NSURLResponse *response, NSData *data) {
-            FBConditionalLog(self.connection == connection, @"Inconsistent connection state");
+            FBConditionalLog(self.connection == connection, FBLoggingBehaviorFBURLConnections, @"Inconsistent connection state");
 
             self.connection = nil;
             if (!error) {

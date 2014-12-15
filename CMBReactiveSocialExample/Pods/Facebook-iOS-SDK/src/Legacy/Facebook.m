@@ -18,8 +18,11 @@
 
 #import "FBError.h"
 #import "FBFrictionlessRequestSettings.h"
+#import "FBInternalSettings.h"
+#import "FBLogger.h"
 #import "FBLoginDialog.h"
 #import "FBRequest.h"
+#import "FBRequest+Internal.h"
 #import "FBSession+Internal.h"
 #import "FBSessionManualTokenCachingStrategy.h"
 #import "FBSessionUtility.h"
@@ -236,11 +239,10 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
     NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
     for (NSString *pair in pairs) {
         NSArray *kv = [pair componentsSeparatedByString:@"="];
-        NSString *val =
-        [[kv objectAtIndex:1]
-         stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-        [params setObject:val forKey:[kv objectAtIndex:0]];
+        if ([kv count] > 1) {
+            [params setObject:[[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                       forKey:[kv objectAtIndex:0]];
+        }
     }
     return params;
 }
@@ -291,9 +293,6 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
  *            http://developers.facebook.com/docs/authentication/permissions
  *            This parameter should not be null -- if you do not require any
  *            permissions, then pass in an empty String array.
- * @param delegate
- *            Callback interface for notifying the calling application when
- *            the user has logged in.
  */
 - (void)authorize:(NSArray *)permissions {
 
@@ -370,9 +369,11 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
     }
     _isExtendingAccessToken = YES;
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   @"auth.extendSSOAccessToken", @"method",
+                                   @"fb_extend_sso_token", @"grant_type",
                                    nil];
-    _requestExtendingAccessToken = [self requestWithParams:params andDelegate:self];
+    _requestExtendingAccessToken = [self requestWithGraphPath:@"oauth/access_token"
+                                                    andParams:params
+                                                  andDelegate:self];
 }
 
 /**
@@ -414,7 +415,7 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
  * This will ensure that the authorization process will proceed smoothly once the
  * Facebook application or Safari redirects back to your application.
  *
- * @param URL the URL that was passed to the application delegate's handleOpenURL method.
+ * @param url the URL that was passed to the application delegate's handleOpenURL method.
  *
  * @return YES if the URL starts with 'fb[app_id]://authorize and hence was handled
  *   by SDK, NO otherwise.
@@ -444,7 +445,7 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
  * Invalidate the current user session by removing the access token in
  * memory and clearing the browser cookie.
  *
- * @deprecated Use of a single session delegate, set at app init, is preferred
+ * Deprecated; Use of a single session delegate, set at app init, is preferred
  */
 - (void)logout:(id<FBSessionDelegate>)delegate {
     [self logout];
@@ -463,7 +464,7 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
  *
  * See http://developers.facebook.com/docs/reference/rest/
  *
- * @param parameters
+ * @param params
  *            Key-value pairs of parameters to the request. Refer to the
  *            documentation: one of the parameters must be "method".
  * @param delegate
@@ -475,7 +476,8 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
 - (FBRequest *)requestWithParams:(NSMutableDictionary *)params
                      andDelegate:(id<FBRequestDelegate>)delegate {
     if ([params objectForKey:@"method"] == nil) {
-        NSLog(@"API Method must be specified");
+        [FBLogger singleShotLogEntry:FBLoggingBehaviorDeveloperErrors
+                        formatString:@"API Method must be specified: %@", params];
         return nil;
     }
 
@@ -497,7 +499,7 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
  *
  * @param methodName
  *             a valid REST server API method.
- * @param parameters
+ * @param params
  *            Key-value pairs of parameters to the request. Refer to the
  *            documentation: one of the parameters must be "method". To upload
  *            a file, you should specify the httpMethod to be "POST" and the
@@ -562,7 +564,7 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
  *            Path to resource in the Facebook graph, e.g., to fetch data
  *            about the currently logged authenticated user, provide "me",
  *            which will fetch http://graph.facebook.com/me
- * @param parameters
+ * @param params
  *            key-value string parameters, e.g. the path "search" with
  *            parameters "q" : "facebook" would produce a query for the
  *            following graph resource:
@@ -595,7 +597,7 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
  *            Path to resource in the Facebook graph, e.g., to fetch data
  *            about the currently logged authenticated user, provide "me",
  *            which will fetch http://graph.facebook.com/me
- * @param parameters
+ * @param params
  *            key-value string parameters, e.g. the path "search" with
  *            parameters {"q" : "facebook"} would produce a query for the
  *            following graph resource:
@@ -651,7 +653,7 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
  * @param action
  *            String representation of the desired method: e.g. "login",
  *            "feed", ...
- * @param parameters
+ * @param params
  *            key-value string parameters
  * @param delegate
  *            Callback interface to notify the calling application when the
@@ -669,7 +671,7 @@ static NSString *const FBexpirationDatePropertyName = @"expirationDate";
     [params setObject:kRedirectURL forKey:@"redirect_uri"];
 
     if ([action isEqualToString:kLogin]) {
-        [params setObject:FBLoginUXResponseTypeToken forKey:FBLoginUXResponseType];
+        [params setObject:FBLoginUXResponseTypeTokenAndSignedRequest forKey:FBLoginUXResponseType];
         _fbDialog = [[FBLoginDialog alloc] initWithURL:dialogURL loginParams:params delegate:self];
     } else {
         [params setObject:_appId forKey:@"app_id"];

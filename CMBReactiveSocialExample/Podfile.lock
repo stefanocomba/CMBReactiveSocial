@@ -1,4 +1,5 @@
 PODS:
+  - Bolts (1.1.3)
   - CMBReactiveSocial (0.1.0):
     - CMBReactiveSocial/All
     - ReactiveCocoa
@@ -17,13 +18,15 @@ PODS:
     - ReactiveCocoa
   - CMBReactiveSocial/Twitter (0.1.0):
     - ReactiveCocoa
-  - Facebook-iOS-SDK (3.13.0)
-  - ReactiveCocoa (2.3):
+  - Facebook-iOS-SDK (3.21.1):
+    - Bolts (~> 1.0)
+  - ReactiveCocoa (2.3.1):
+    - ReactiveCocoa/UI
+  - ReactiveCocoa/Core (2.3.1):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3.1)
+  - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
-    - ReactiveCocoa/no-arc
-  - ReactiveCocoa/Core (2.3):
-    - ReactiveCocoa/no-arc
-  - ReactiveCocoa/no-arc (2.3)
 
 DEPENDENCIES:
   - CMBReactiveSocial (from `../CMBReactiveSocial.podspec`)
@@ -33,8 +36,9 @@ EXTERNAL SOURCES:
     :path: ../CMBReactiveSocial.podspec
 
 SPEC CHECKSUMS:
+  Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   CMBReactiveSocial: b2cdb297dd91197a4164978e619ff2ebb31db3a9
-  Facebook-iOS-SDK: 5788541337dc88265bc940cb5ffb05915f9b64e3
-  ReactiveCocoa: 1f6265f9d521923d3efcc37b00722cefc16df269
+  Facebook-iOS-SDK: 18c26e86ab25c17854a2ee2a8f60562099c6600f
+  ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.34.4

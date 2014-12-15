@@ -16,34 +16,44 @@
 
 #import "FBFetchedAppSettings.h"
 
-#import "FBSettings.h"
+#import "FBInternalSettings.h"
 
 @interface FBFetchedAppSettings ()
 
 @property (readwrite, retain, nonatomic) NSString *appID;
+@property (readwrite) FBAppEventsFeatureOptions appEventsFeatureOptions;
 
 @end
 
 @implementation FBFetchedAppSettings
 
 - (instancetype)init {
-    return [self initWithAppID:nil];
+    return [self initWithAppID:nil appEventsFeatureOptions:0];
 }
 
-- (instancetype)initWithAppID:(NSString *)appID {
+- (instancetype)initWithAppID:(NSString *)appID
+      appEventsFeatureOptions:(FBAppEventsFeatureOptions)appEventsFeatureOptions {
     if ((self = [super init])) {
         if (appID == nil) {
             appID = [FBSettings defaultAppID];
         }
         self.appID = appID;
+        self.appEventsFeatureOptions = appEventsFeatureOptions;
     }
     return self;
 }
 
 - (void)dealloc {
-    self.serverAppName = nil;
-    self.appID = nil;
+    [_serverAppName release];
+    [_appID release];
+    [_loginTooltipContent release];
+    [_dialogConfigs release];
 
     [super dealloc];
 }
+
+- (BOOL)shouldAccessAdvertisingID {
+    return (self.appEventsFeatureOptions & FBAppEventsFeatureOptionsShouldAccessAdvertisingID) == FBAppEventsFeatureOptionsShouldAccessAdvertisingID;
+}
+
 @end
