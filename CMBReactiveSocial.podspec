@@ -38,10 +38,6 @@ Pod::Spec.new do |s|
         ss.header_dir   =  'Facebook'
         ss.dependency 'Facebook-iOS-SDK'
   end
-  s.subspec 'Twitter' do |ss|
-        ss.source_files =  'Classes/Twitter/*.{m,h}'
-        ss.header_dir   =  'Twitter'
-  end
   s.subspec 'Google' do |ss|
         ss.source_files =  'Classes/Google/*.{m,h}'
         ss.header_dir   =  'Google'
