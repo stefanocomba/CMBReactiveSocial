@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  SCReactiveSocialExample
+//  CMBReactiveSocialExample
 //
 //  Created by Stefano Comba on 27/03/14.
 //  Copyright (c) 2014 Stefano Comba. All rights reserved.
@@ -8,12 +8,16 @@
 
 #import "AppDelegate.h"
 #import <FBAppCall.h>
+#import <GooglePlus.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
-    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+//    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    return [GPPURLHandler handleURL:url
+                         sourceApplication:sourceApplication
+                                annotation:annotation];
 
 }
 

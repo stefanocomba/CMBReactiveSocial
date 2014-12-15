@@ -1,6 +1,6 @@
 //
 //  main.m
-//  SCReactiveSocialExample
+//  CMBReactiveSocialExample
 //
 //  Created by Stefano Comba on 27/03/14.
 //  Copyright (c) 2014 Stefano Comba. All rights reserved.

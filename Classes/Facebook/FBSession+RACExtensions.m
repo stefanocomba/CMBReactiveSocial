@@ -14,7 +14,7 @@
 - (RACSignal*) rac_openSessionWithBehavior:(FBSessionLoginBehavior) behavior  {
     __weak FBSession* session = self;
     
-    RACSignal* fbSignal = [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
         [session openWithBehavior:behavior completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
             //            [self sessionStateChanged:session state:status error:error];
@@ -23,15 +23,15 @@
                 [subscriber sendNext: @(status)];
                 [subscriber sendCompleted];
             }
-            
+            else {
+                [subscriber sendError:error];
+            }
             
         }];
         return [RACDisposable disposableWithBlock:^{
-            //            [[FBSession activeSession] closeAndClearTokenInformation];
+//            [[FBSession activeSession] closeAndClearTokenInformation];
         }];
     }] subscribeOn:[RACScheduler mainThreadScheduler]];
-
-    return fbSignal;
 }
 
 

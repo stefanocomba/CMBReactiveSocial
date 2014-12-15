@@ -19,8 +19,21 @@
 
         [account requestAccessToAccountsWithType: accountType options:options completion:^(BOOL granted, NSError *error) {
             if  (granted) {
-                [subscriber sendNext:account];
-                [subscriber sendCompleted];
+                if (![accountType.identifier isEqualToString: ACAccountTypeIdentifierTwitter] && ![accountType.identifier isEqualToString: ACAccountTypeIdentifierTencentWeibo]) {
+                    [account renewCredentialsForAccount: [[account accountsWithAccountType:accountType] lastObject] completion:^(ACAccountCredentialRenewResult renewResult, NSError *error) {
+                        if (renewResult == ACAccountCredentialRenewResultRenewed) {
+                            [subscriber sendNext:account];
+                            [subscriber sendCompleted];
+                        }
+                        else {
+                            [subscriber sendError:error];
+                        }
+                    }];
+                }
+                else {
+                    [subscriber sendNext:account];
+                    [subscriber sendCompleted];
+                }
             }
             else {
                 [subscriber sendError:error];
