@@ -31,7 +31,7 @@
 
         gpp.delegate = nil;
         gpp.delegate = gpp;
-        
+        gpp.scopes= scopes;
         [gpp authenticate];
         
         return disposable;
