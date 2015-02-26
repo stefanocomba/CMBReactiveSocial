@@ -37,5 +37,6 @@
         return disposable;
     }];
 }
+- (void)didDisconnectWithError:(NSError *)error {;}
 
 @end
