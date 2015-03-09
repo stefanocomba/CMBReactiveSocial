@@ -12,4 +12,5 @@
 
 @interface GPPSignIn (RACExtensions)
 - (RACSignal *) rac_signInWithScopes: (NSArray *) scopes;
+- (UIViewController*) googleSignInViewController;
 @end

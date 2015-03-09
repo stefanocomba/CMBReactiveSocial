@@ -485,6 +485,7 @@
 				GCC_PREFIX_HEADER = "CMBReactiveSocial/CMBReactiveSocial-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/CMBReactiveSocial/CMBReactiveSocialExample-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a1c20ba1-99ab-45f7-836a-ead071a8018e";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -499,6 +500,7 @@
 				GCC_PREFIX_HEADER = "CMBReactiveSocial/CMBReactiveSocial-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/CMBReactiveSocial/CMBReactiveSocialExample-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a1c20ba1-99ab-45f7-836a-ead071a8018e";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

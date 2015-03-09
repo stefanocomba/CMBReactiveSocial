@@ -35,7 +35,11 @@
 //    [self facebookExample];
 //    [self facebookSystemExample];
 //    [self twitterExample];
-	[self googleExample];
+//     @weakify(self);
+	[[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1] subscribeCompleted:^{
+//         @strongify(self);
+        [self googleExample];
+    }];
 
 }
 
@@ -100,16 +104,17 @@
     signIn.shouldFetchGooglePlusUser = YES;
     signIn.shouldFetchGoogleUserEmail = YES;
     signIn.clientID = @"1033453988313.apps.googleusercontent.com";
-    
+    signIn.keychainName= @"CMBReactiveSocialExample";
 //    kGTLAuthScopePlusLogin    // "https://www.googleapis.com/auth/plus.login" scope => Know your name, basic info, and list of people you're connected to on Google+
 //    kGTLAuthScopePlusMe       // Know who you are on Google
 //    @"profile"                // "profile" scope
     
-    [[signIn rac_signInWithScopes: @[kGTLAuthScopePlusLogin]] subscribeNext:^(id x) {
+    [[signIn rac_signInWithScopes: @[kGTLAuthScopePlusLogin]] subscribeNext:^(GTMOAuth2Authentication* auth) {
         
         GTLServicePlus *plusService = [GTLServicePlus sharedInstance];
         plusService.retryEnabled = YES;
-        [plusService setAuthorizer: [GPPSignIn sharedInstance].authentication];
+
+        [plusService setAuthorizer:  auth];
         
         NSLog (@"%@", [GPPSignIn sharedInstance].authentication.userEmail);
         

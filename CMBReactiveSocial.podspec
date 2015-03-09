@@ -34,6 +34,7 @@ Pod::Spec.new do |s|
 #s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'Accounts', 'Social'
   s.dependency 'ReactiveCocoa', '2.3.1'
+  s.dependency 'libextobjc/EXTScope'
 s.subspec 'System' do |ss|
 ss.source_files =  'Pod/Classes/Accounts/*.{m,h}'
 ss.header_dir   =  'Accounts'
