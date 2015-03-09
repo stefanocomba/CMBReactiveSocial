@@ -1,18 +1,20 @@
 # CMBReactiveSocial
 
-[![Version](http://cocoapod-badges.herokuapp.com/v/CMBReactiveSocial/badge.png)](http://cocoadocs.org/docsets/CMBReactiveSocial)
-[![Platform](http://cocoapod-badges.herokuapp.com/p/CMBReactiveSocial/badge.png)](http://cocoadocs.org/docsets/CMBReactiveSocial)
+[![CI Status](http://img.shields.io/travis/Stefano Comba/CMBReactiveSocial.svg?style=flat)](https://travis-ci.org/Stefano Comba/CMBReactiveSocial)
+[![Version](https://img.shields.io/cocoapods/v/CMBReactiveSocial.svg?style=flat)](http://cocoadocs.org/docsets/CMBReactiveSocial)
+[![License](https://img.shields.io/cocoapods/l/CMBReactiveSocial.svg?style=flat)](http://cocoadocs.org/docsets/CMBReactiveSocial)
+[![Platform](https://img.shields.io/cocoapods/p/CMBReactiveSocial.svg?style=flat)](http://cocoadocs.org/docsets/CMBReactiveSocial)
 
 ## Usage
 
-To run the example project; clone the repo, and run `pod install` from the Example directory first.
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
 
 ## Installation
 
-SCReactiveSocial is available through [CocoaPods](http://cocoapods.org), to install
-it simply add the following line to your Podfile:
+CMBReactiveSocial is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
 
     pod "CMBReactiveSocial"
 
