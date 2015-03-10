@@ -15,6 +15,7 @@
 
 @implementation CMBOAuthViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (!self.webView) {
@@ -39,21 +40,27 @@
 
 
 - (RACSignal*) rac_oauthWithURL:(NSURL*) url redirectUrl:(NSURL*) redirectURL {
+    __weak id<UIWebViewDelegate> delegate = self;
+    return [[RACObserve(self, webView) ignore:nil] flattenMap:^RACStream *(UIWebView* webView) {
+        
+    
+        webView.delegate = delegate;
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
     RACSignal* tokenSignal = [[[self rac_signalForSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)] map:^id(RACTuple* value) {
-        NSURLRequest* request =  [value first];
+        NSURLRequest* request =  [value second];
         return request.URL;
     }] filter:^BOOL(NSURL* value) {
-     return [value.baseURL isEqual:redirectURL];
+     return [value.absoluteString rangeOfString:redirectURL.absoluteString].location == 0;
     }];
     
-    RACSignal* errorSignal = [[self rac_signalForSelector:@selector(webView:didFailLoadWithError:)] flattenMap:^RACStream *(NSError* value) {
-        return [RACSignal error:value];
+    RACSignal* errorSignal = [[self rac_signalForSelector:@selector(webView:didFailLoadWithError:)] flattenMap:^RACStream *(RACTuple* value) {
+        return [RACSignal error:value.second];
     }];
-                              
-    [self.webView loadRequest:request];
+    [webView stopLoading];
+    [webView loadRequest:request];
     return [[RACSignal merge:@[tokenSignal,errorSignal]] take:1];
+    }];
     
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType { return YES;}

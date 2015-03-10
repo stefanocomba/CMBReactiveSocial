@@ -38,18 +38,23 @@
 //    [self facebookSystemExample];
 //    [self twitterExample];
 //     @weakify(self);
-    NSURL* url = [NSURL URLWithString:@"https://api.instagram.com/oauth/authorize/?client_id=c79c90c23c5b468f9c3f778cf2fae965&redirect_uri=http://cmbreactivesocialdemo&response_type=code"];
+    NSURL* instagramURL = [NSURL URLWithString:@"https://api.instagram.com/oauth/authorize/?client_id=c79c90c23c5b468f9c3f778cf2fae965&redirect_uri=http://cmbreactivesocialdemo&response_type=token"];
+        NSURL* linkedinURL = [NSURL URLWithString:@"https://www.linkedin.com/uas/oauth2/authorization?client_id=758g8iyz58vzir&redirect_uri=http://cmbreactivesocialdemo&response_type=code&state=customsecret"];
     NSURL* redirect = [NSURL URLWithString:@"http://cmbreactivesocialdemo"];
     
 	[[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1] subscribeCompleted:^{
 //        [self googleExample];
-        CMBOAuthViewController *vc =         [CMBOAuthViewController new];
+        CMBOAuthViewController *vc =  [CMBOAuthViewController new];
+        
         [self.navigationController pushViewController:vc animated:YES];
-        [[[[RACSignal return:nil] delay:0.25] flattenMap:^RACStream *(id value) {
-            return [vc rac_oauthWithURL:url redirectUrl:redirect];
-        }] subscribeNext:^(id x) {
-            
-        }];
+        
+        [[vc rac_oauthWithURL:linkedinURL redirectUrl:redirect]
+         subscribeNext:^(id x) {
+            NSLog(@"%@",[x absoluteString]);
+            [self.navigationController popViewControllerAnimated:YES];
+        } error:^(NSError *error) {
+
+    }];
     }];
 
 }
