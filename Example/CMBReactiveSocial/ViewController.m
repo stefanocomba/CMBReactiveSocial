@@ -22,6 +22,8 @@
 #import <GPPSignIn+RACExtensions.h>
 #import <GTLServicePlus+RACExtensions.h>
 
+#import <CMBOAuthViewController.h>
+
 @interface ViewController ()
 
 @end
@@ -36,9 +38,18 @@
 //    [self facebookSystemExample];
 //    [self twitterExample];
 //     @weakify(self);
+    NSURL* url = [NSURL URLWithString:@"https://api.instagram.com/oauth/authorize/?client_id=c79c90c23c5b468f9c3f778cf2fae965&redirect_uri=http://cmbreactivesocialdemo&response_type=code"];
+    NSURL* redirect = [NSURL URLWithString:@"http://cmbreactivesocialdemo"];
+    
 	[[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1] subscribeCompleted:^{
-//         @strongify(self);
-        [self googleExample];
+//        [self googleExample];
+        CMBOAuthViewController *vc =         [CMBOAuthViewController new];
+        [self.navigationController pushViewController:vc animated:YES];
+        [[[[RACSignal return:nil] delay:0.25] flattenMap:^RACStream *(id value) {
+            return [vc rac_oauthWithURL:url redirectUrl:redirect];
+        }] subscribeNext:^(id x) {
+            
+        }];
     }];
 
 }
