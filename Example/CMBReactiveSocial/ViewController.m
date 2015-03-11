@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import <EXTScope.h>
 // facebook
 #import <FacebookSDK.h>
 #import <ACAccountStore+RACExtensions.h>
@@ -25,6 +25,8 @@
 #import <CMBOAuthViewController.h>
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *btn_instagram;
+@property (weak, nonatomic) IBOutlet UIButton *btn_linkedin;
 
 @end
 
@@ -38,23 +40,26 @@
 //    [self facebookSystemExample];
 //    [self twitterExample];
 //     @weakify(self);
-    NSURL* instagramURL = [NSURL URLWithString:@"https://api.instagram.com/oauth/authorize/?client_id=c79c90c23c5b468f9c3f778cf2fae965&redirect_uri=http://cmbreactivesocialdemo&response_type=token"];
-        NSURL* linkedinURL = [NSURL URLWithString:@"https://www.linkedin.com/uas/oauth2/authorization?client_id=758g8iyz58vzir&redirect_uri=http://cmbreactivesocialdemo&response_type=code&state=customsecret"];
-    NSURL* redirect = [NSURL URLWithString:@"http://cmbreactivesocialdemo"];
-    
-	[[[self rac_signalForSelector:@selector(viewDidAppear:)] take:1] subscribeCompleted:^{
-//        [self googleExample];
-        CMBOAuthViewController *vc =  [CMBOAuthViewController new];
-        
+     @weakify(self);
+     NSURL* redirect = [NSURL URLWithString:@"http://cmbreactivesocialdemo"];
+    self.btn_instagram.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+         @strongify(self);
+        CMBOAuthViewController* vc = [CMBOAuthViewController new];
         [self.navigationController pushViewController:vc animated:YES];
-        
-        [[vc rac_oauthWithURL:linkedinURL redirectUrl:redirect]
-         subscribeNext:^(id x) {
-            NSLog(@"%@",[x absoluteString]);
+        return [[[vc rac_oauthInstagramWithClientId:@"YOUR_CLIENT_ID" redirectURI:redirect] doCompleted:^{
+            @strongify(self);
             [self.navigationController popViewControllerAnimated:YES];
-        } error:^(NSError *error) {
-
+        }] logNext];
     }];
+    
+    self.btn_linkedin.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self);
+        CMBOAuthViewController* vc = [CMBOAuthViewController new];
+        [self.navigationController pushViewController:vc animated:YES];
+        return [[[vc rac_oauthLinkedinWithClientId:@"YOUR_CLIENT_ID" redirectURI:redirect state:@"YOUR_CUSTOM_STATE" clientSecret:@"YOUR_CLIENT_SECRET"] doCompleted:^{
+             @strongify(self);
+             [self.navigationController popViewControllerAnimated:YES];
+        }] logNext];
     }];
 
 }
