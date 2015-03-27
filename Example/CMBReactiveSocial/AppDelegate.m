@@ -7,26 +7,31 @@
 //
 
 #import "AppDelegate.h"
-#import <FBAppCall.h>
 #import <GooglePlus.h>
-
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
 //    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    return [GPPURLHandler handleURL:url
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                         openURL:url
+                                               sourceApplication:sourceApplication
+                                                      annotation:annotation]|  [GPPURLHandler handleURL:url
                          sourceApplication:sourceApplication
                                 annotation:annotation];
 
 }
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // Override point for customization after application launch.
-    
-    return YES;
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [FBSDKAppEvents activateApp];
 }
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                    didFinishLaunchingWithOptions:launchOptions];
+}
+
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -45,11 +50,7 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    [FBAppCall handleDidBecomeActive];
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
+
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {

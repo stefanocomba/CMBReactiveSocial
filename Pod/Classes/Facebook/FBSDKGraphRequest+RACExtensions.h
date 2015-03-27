@@ -6,10 +6,11 @@
 //
 //
 
-#import "FBRequestConnection.h"
+
+#import "FBSDKGraphRequest.h"
 #import <ReactiveCocoa.h>
 
-@interface FBRequestConnection (RACExtensions)
+@interface FBSDKGraphRequest (RACExtensions)
 +(RACSignal *) rac_startWithGraphPath: (NSString *)graphPath parameters:(NSDictionary *) parameters HTTPMethod:(NSString *) method ;
 +(RACSignal*) rac_getUserInfo;
 @end

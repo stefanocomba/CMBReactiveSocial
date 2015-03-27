@@ -51,7 +51,7 @@
 
 - (RACSignal*) rac_getGoogleAuthSignal {
     @weakify(self);
-    return [RACSignal defer:^RACSignal *{
+    return [[RACSignal defer:^RACSignal *{
         @strongify(self);
         //        [self presentGoogleSignIn];
         return [[self rac_signalForSelector:@selector(viewController:finishedWithAuth:error:)] flattenMap:^RACStream *(RACTuple* value) {
@@ -59,7 +59,7 @@
             ;
             return [RACSignal return:value.second];
         }];
-    }];
+    }] take:1];
 }
 
 - (UIViewController*) googleSignInViewController {
@@ -87,8 +87,8 @@
                                          options:NSLayoutFormatDirectionLeadingToTrailing
                                          metrics:nil
                                          views:NSDictionaryOfVariableBindings(webView)]];    webView.delegate = viewController;
-    viewController.signIn.shouldFetchGoogleUserEmail = YES;
-    viewController.signIn.shouldFetchGoogleUserProfile = YES;
+    viewController.signIn.shouldFetchGoogleUserEmail = self.shouldFetchGoogleUserEmail;
+    viewController.signIn.shouldFetchGoogleUserProfile = self.shouldFetchGooglePlusUser;
     return viewController;
 }
 

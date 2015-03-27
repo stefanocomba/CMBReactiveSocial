@@ -6,9 +6,9 @@
 //
 //
 
-#import "FBRequestConnection+RACExtensions.h"
+#import "FBSDKGraphRequest+RACExtensions.h"
 
-@implementation FBRequestConnection (RACExtensions)
+@implementation FBSDKGraphRequest (RACExtensions)
 
 
 +(RACSignal*) rac_getUserInfo {
@@ -16,8 +16,11 @@
 }
 
 +(RACSignal *) rac_startWithGraphPath: (NSString *)graphPath parameters:(NSDictionary *) parameters HTTPMethod:(NSString *) method  {
+
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        [self startWithGraphPath:graphPath parameters:parameters HTTPMethod:method completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        
+        FBSDKGraphRequest* graphRequest = [[FBSDKGraphRequest alloc] initWithGraphPath:graphPath parameters:parameters];
+        [graphRequest startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
             if (!error) {
                 [subscriber sendNext:result];
                 [subscriber sendCompleted];

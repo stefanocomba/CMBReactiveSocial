@@ -9,12 +9,12 @@
 #import "ViewController.h"
 #import <EXTScope.h>
 // facebook
-#import <FacebookSDK.h>
+
 #import <ACAccountStore+RACExtensions.h>
 #import <SLRequest+RACExtensions.h>
 
-#import <FBSession+RACExtensions.h>
-#import <FBRequestConnection+RACExtensions.h>
+#import <FBSDKGraphRequest+RACExtensions.h>
+#import <FBSDKLoginManager+RACExtensions.h>
 
 // google
 #import <GooglePlus.h>
@@ -27,6 +27,8 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *btn_instagram;
 @property (weak, nonatomic) IBOutlet UIButton *btn_linkedin;
+@property (weak, nonatomic) IBOutlet UIButton *btn_facebook;
+@property (weak, nonatomic) IBOutlet UIButton *btn_googleplus;
 
 @end
 
@@ -56,27 +58,59 @@
         @strongify(self);
         CMBOAuthViewController* vc = [CMBOAuthViewController new];
         [self.navigationController pushViewController:vc animated:YES];
-        return [[[vc rac_oauthLinkedinWithClientId:@"YOUR_CLIENT_ID" redirectURI:redirect state:@"YOUR_CUSTOM_STATE" clientSecret:@"YOUR_CLIENT_SECRET"] doCompleted:^{
+        return [[[vc rac_oauthLinkedinWithClientId:@"YOUR_CLIENT_ID" redirectURI:redirect state:@"YOUR_CUSTOM_STATE" clientSecret:@"YOUR_CLIENT_SECRET" scope:nil] doCompleted:^{
              @strongify(self);
              [self.navigationController popViewControllerAnimated:YES];
         }] logNext];
     }];
-
+    
+    
+    
+    [self setupFacebook];
+    [self setupGooglePlus];
+    
 }
 
-- (void) facebookExample {
-    FBSession* session = [[FBSession alloc] initWithAppID:@"1478533272375250" permissions:@[@"user_photos", @"email", @"user_birthday", @"user_about_me", @"user_location"] urlSchemeSuffix:nil tokenCacheStrategy:[FBSessionTokenCachingStrategy nullCacheInstance]];
-    [FBSession setActiveSession:session];
+- (void) setupFacebook {
     
-    [[session rac_openSessionWithBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent] subscribeNext:^(id x) {
-       [[FBRequestConnection rac_startWithGraphPath:@"me" parameters:nil HTTPMethod:@"GET"] subscribeNext:^(id x) {
-          NSLog(@"%@",x) ;
-       } error:^(NSError *error) {
-           NSLog(@"%@",error);
-       }];
+    FBSDKLoginManager* loginManager = [[FBSDKLoginManager alloc] init];
+        
+
+    
+
+    self.btn_facebook.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        return [[[[loginManager rac_loginWithReadPermissions:@[@"user_friends", @"email", @"public_profile", @"read_friendlists", @"user_location"]] flattenMap:^RACStream *(id value) {
+            return [FBSDKGraphRequest rac_startWithGraphPath:@"me/friendlists" parameters:nil HTTPMethod:@"GET"];
+        }]
+                 logNext] logError];
     }];
 }
-
+- (void) setupGooglePlus {
+    GPPSignIn *signIn = [GPPSignIn sharedInstance];
+    [signIn disconnect];
+    [signIn signOut];
+    
+    signIn.shouldFetchGooglePlusUser = YES;
+    signIn.shouldFetchGoogleUserEmail = YES;
+    signIn.clientID = @"1033453988313.apps.googleusercontent.com";
+    signIn.keychainName= @"CMBReactiveSocialExample";
+    
+    self.btn_googleplus.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        return [[[signIn rac_signInWithScopes: @[kGTLAuthScopePlusLogin]] flattenMap:^RACStream *(GTMOAuth2Authentication* auth) {
+            GTLServicePlus *plusService = [GTLServicePlus sharedInstance];
+            plusService.retryEnabled = YES;
+            [plusService setAuthorizer:  auth];
+            return [[plusService rac_peopleListCollection: kGTLPlusCollectionVisible] flattenMap:^RACStream *(RACTuple* x) {
+                GTLServiceTicket *ticket = x.first;
+                GTLPlusPeopleFeed *peopleFeed = x.second;
+                NSLog(@"%@\n\n%@", ticket, peopleFeed.items);
+                return [[plusService rac_getUser] logNext];
+            }];
+        }] logError];
+    }];
+    
+  
+}
 - (void) facebookSystemExample {
     [[ACAccountStore rac_accountWithType:ACAccountTypeIdentifierFacebook options:@{ACFacebookAppIdKey:@"1478533272375250", ACFacebookPermissionsKey: @[@"user_photos", @"email", @"user_birthday", @"user_about_me", @"user_location"]}] subscribeNext:^(ACAccountStore* accountStore) {
         ACAccountType *facebookAccountType =[accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
@@ -118,51 +152,7 @@
 }
 
 - (void) googleExample {
-    GPPSignIn *signIn = [GPPSignIn sharedInstance];
-    [signIn disconnect];
-    [signIn signOut];
     
-    signIn.shouldFetchGooglePlusUser = YES;
-    signIn.shouldFetchGoogleUserEmail = YES;
-    signIn.clientID = @"1033453988313.apps.googleusercontent.com";
-    signIn.keychainName= @"CMBReactiveSocialExample";
-//    kGTLAuthScopePlusLogin    // "https://www.googleapis.com/auth/plus.login" scope => Know your name, basic info, and list of people you're connected to on Google+
-//    kGTLAuthScopePlusMe       // Know who you are on Google
-//    @"profile"                // "profile" scope
-    
-    [[signIn rac_signInWithScopes: @[kGTLAuthScopePlusLogin]] subscribeNext:^(GTMOAuth2Authentication* auth) {
-        
-        GTLServicePlus *plusService = [GTLServicePlus sharedInstance];
-        plusService.retryEnabled = YES;
-
-        [plusService setAuthorizer:  auth];
-        
-        NSLog (@"%@", [GPPSignIn sharedInstance].authentication.userEmail);
-        
-        // get people information
-        [[plusService rac_peopleListCollection: kGTLPlusCollectionVisible] subscribeNext:^(RACTuple *x) {
-            GTLServiceTicket *ticket = x.first;
-            GTLPlusPeopleFeed *peopleFeed = x.second;
-            
-            NSLog(@"%@\n\n%@", ticket, peopleFeed.items);
-            
-        } error:^(NSError *error) {
-            NSLog(@"%@", error);
-        }];
-        
-        // get user account information
-        [[plusService rac_getUser] subscribeNext:^(RACTuple *x) {
-            GTLServiceTicket *ticket = x.first;
-            GTLPlusPerson *person = x.second;
-            NSLog(@"%@\n\n%@", ticket, person.displayName);
-            
-        } error:^(NSError *error) {
-            NSLog(@"%@", error);
-        }];
-        
-    } error:^(NSError *error) {
-        NSLog(@"%@", error);
-    }];
 }
 
 - (void)didReceiveMemoryWarning

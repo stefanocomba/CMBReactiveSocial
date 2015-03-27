@@ -6,36 +6,37 @@
 //
 //
 
-#import "FBSession+RACExtensions.h"
+#import "FBSDKLoginManager+RACExtensions.h"
+#import "FBSDKAccessToken.h"
+@implementation FBSDKLoginManager (RACExtensions)
 
-@implementation FBSession (RACExtensions)
+- (RACSignal*) rac_loginWithReadPermissions:(NSArray*) permissions {
+    __weak FBSDKLoginManager *loginManager = self;
 
-
-- (RACSignal*) rac_openSessionWithBehavior:(FBSessionLoginBehavior) behavior  {
-    __weak FBSession* session = self;
     
     return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        
-        [session openWithBehavior:behavior completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-            //            [self sessionStateChanged:session state:status error:error];
-            
-            if (!error && status == FBSessionStateOpen){
-                [subscriber sendNext: @(status)];
-                [subscriber sendCompleted];
-            }
-            else {
-                [subscriber sendError:error];
-            }
-            
-        }];
-
+        if ([FBSDKAccessToken currentAccessToken] != nil) {
+            [subscriber sendNext:nil];
+            [subscriber sendCompleted];
+        }
+        else {
+            [loginManager logInWithReadPermissions:permissions handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+                if (!error){
+                    [subscriber sendNext: result];
+                    [subscriber sendCompleted];
+                }
+                else {
+                    [subscriber sendError:error];
+                }
+            }];
+        }
         return [RACDisposable disposableWithBlock:^{
 //            [[FBSession activeSession] closeAndClearTokenInformation];
         }];
     }] subscribeOn:[RACScheduler mainThreadScheduler]];
 }
 
-
+/*
 - (RACSignal*) rac_publishWithPermissions:(NSArray *) permissions defaultAudience:(FBSessionDefaultAudience) defaultAudience {
     __weak FBSession* session = self;
     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
@@ -56,4 +57,5 @@
        }];
     }];
 }
+ */
 @end

@@ -5,49 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="ufC-wZ-h7g">
-            <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
-                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Un9-Z5-X18">
-                                <rect key="frame" x="228" y="135" width="144" height="30"/>
-                                <state key="normal" title="OAUTH INSTAGRAM">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="go9-80-LYy">
-                                <rect key="frame" x="237" y="179" width="126" height="30"/>
-                                <state key="normal" title="OAUTH LINKEDIN">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="go9-80-LYy" firstAttribute="centerX" secondItem="Un9-Z5-X18" secondAttribute="centerX" id="00C-qr-BTs"/>
-                            <constraint firstItem="go9-80-LYy" firstAttribute="top" secondItem="Un9-Z5-X18" secondAttribute="bottom" constant="14" id="LHa-t4-61g"/>
-                            <constraint firstAttribute="centerX" secondItem="Un9-Z5-X18" secondAttribute="centerX" id="O42-xr-HTu"/>
-                            <constraint firstItem="Un9-Z5-X18" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="71" id="vjr-sq-QNz"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="te5-8c-KBs"/>
-                    <connections>
-                        <outlet property="btn_instagram" destination="Un9-Z5-X18" id="CN5-ij-jSF"/>
-                        <outlet property="btn_linkedin" destination="go9-80-LYy" id="X76-Jp-fMc"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1355.625" y="330.63380281690138"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="iHw-cP-RoP">
             <objects>
@@ -59,12 +16,81 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="eYd-hc-Cjs"/>
+                        <segue destination="5nf-Bk-UV9" kind="relationship" relationship="rootViewController" id="Xhn-pp-o05"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nBa-gB-yag" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="193.125" y="995.07042253521115"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="iU1-dZ-WLj">
+            <objects>
+                <tableViewController id="5nf-Bk-UV9" customClass="ViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="FTx-ZF-QcC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="cmT-lg-yhe">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="5mf-Dz-dC7">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5mf-Dz-dC7" id="xKy-jc-4gx">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qwe-tt-LvF">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
+                                                    <state key="normal" title="CONNECT WITH FACEBOOK">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Qwe-tt-LvF" secondAttribute="bottom" id="1Np-do-N4k"/>
+                                                <constraint firstItem="Qwe-tt-LvF" firstAttribute="leading" secondItem="xKy-jc-4gx" secondAttribute="leading" id="9Mr-I6-48m"/>
+                                                <constraint firstAttribute="trailing" secondItem="Qwe-tt-LvF" secondAttribute="trailing" id="owK-8b-gbK"/>
+                                                <constraint firstItem="Qwe-tt-LvF" firstAttribute="top" secondItem="xKy-jc-4gx" secondAttribute="top" id="zpu-gp-0TG"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="RSI-hv-gov">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RSI-hv-gov" id="x7d-Y3-tDm">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZb-JC-LdE">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
+                                                    <state key="normal" title="CONNECT WITH GOOGLE+">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="lZb-JC-LdE" secondAttribute="trailing" id="YUv-6L-vHr"/>
+                                                <constraint firstAttribute="bottom" secondItem="lZb-JC-LdE" secondAttribute="bottom" id="bWu-i4-KWS"/>
+                                                <constraint firstItem="lZb-JC-LdE" firstAttribute="top" secondItem="x7d-Y3-tDm" secondAttribute="top" id="kaX-G5-Bvl"/>
+                                                <constraint firstItem="lZb-JC-LdE" firstAttribute="leading" secondItem="x7d-Y3-tDm" secondAttribute="leading" id="n4z-xe-7q2"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="5nf-Bk-UV9" id="vtu-iR-WCf"/>
+                            <outlet property="delegate" destination="5nf-Bk-UV9" id="quZ-fQ-ZPg"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="zQl-fJ-ySV"/>
+                    <connections>
+                        <outlet property="btn_facebook" destination="Qwe-tt-LvF" id="g7A-N8-Vbw"/>
+                        <outlet property="btn_googleplus" destination="lZb-JC-LdE" id="fBa-Xi-KGL"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RBf-pz-623" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="898" y="995"/>
         </scene>
     </scenes>
 </document>
